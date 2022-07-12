@@ -42,7 +42,7 @@ runs:
         echo DOING STUFF
         echo ${{inputs.repo}}
         echo ${{inputs.ref}}
-        echo ${{inputs.json-inputs}}
+        echo ${{toJSON(inputs.json-inputs)}}
         echo ./${{inputs.path}}${{inputs.repo}}
         echo "::workflow-command action-path=::./${{inputs.path}}/${{inputs.repo}}"
     # - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
