@@ -1,21 +1,43 @@
-name: 'Hello World' # taken from https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
-description: 'Greet someone'
+name: Use Private Action
+description: Checks out a private action via token, stores it, and runs it. Dont follow with another checkout,
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  token:
+    description: Token to use to get access to the private repo
     required: true
-    default: 'World'
+  repo:
+    description: Private repo name e.g. "example/private-action"
+    required: true
+  ref:
+    description: Ref for private action version
+    required: true
+  json-inputs:
+    description: Json object of `inputs` to pass to private action
+    required: false
+    default: "{}"
+  json-env:
+    description: Json object of `env` to pass to private action
+    required: false
+    default: "{}"
+  path:
+    description: Where to store the private action under `$GITHUB_WORKSPACE`
+    required: false
+    default: "../private-actions/"
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+  json-outputs:
+    description: Json object of `outputs` from private action
+    value: ${{ toJSON(steps.private-action.outputs) }}
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: ${{ github.action_path }}/goodbye.sh
-      shell: bash
+    - name: Checkout private action
+      uses: actions/checkout@v3
+      with:
+        token: ${{ inputs.token }}
+        repository: ${{ inputs.repo }}
+        ref: ${{ inputs.ref }}
+        path: ${{ inputs.path }}
+    - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
+      id: private-action
+      uses: ${{ inputs.path }}/${{ inputs.repo }}
+      env: ${{ fromJSON(inputs.json-env) }}
+      with: ${{ fromJSON(inputs.json-inputs) }}
