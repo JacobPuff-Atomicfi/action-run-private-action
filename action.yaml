@@ -21,7 +21,7 @@ inputs:
   path:
     description: Where to store the private action under `$GITHUB_WORKSPACE`
     required: false
-    default: "../private-actions/"
+    default: "./.github/actions/private-actions/"
 outputs:
   json-outputs:
     description: Json object of `outputs` from private action
