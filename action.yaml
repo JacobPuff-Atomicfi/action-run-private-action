@@ -36,8 +36,9 @@ runs:
         repository: ${{ inputs.repo }}
         ref: ${{ inputs.ref }}
         path: ${{ inputs.path }}
+    
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
       id: private-action
-      uses: "{{ inputs.path }}/${{ inputs.repo }}"
+      uses: "${{ inputs.path }}/${{ inputs.repo }}"
       env: ${{ fromJSON(inputs.json-env) }}
       with: ${{ fromJSON(inputs.json-inputs) }}
