@@ -43,6 +43,7 @@ runs:
         echo "::workflow-command starting-path=::$(pwd)"
         echo "::workflow-command action-path=::./${{inputs.path}}/${{inputs.repo}}"
     - name: CD to action
+      shell: bash
       run: |
         cd ${{ steps.echo-stuff.outputs.action-path}}
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
@@ -52,5 +53,6 @@ runs:
       env: ${{ fromJSON(inputs.json-env) }}
       with: ${{ fromJSON(inputs.json-inputs) }}
     - name: CD to starting point
+      shell: bash
       run: |
         cd ${{ steps.echo-stuff.outputs.starting-path}}
