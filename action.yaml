@@ -39,6 +39,7 @@ runs:
     - name: echo stuff
       shell: bash
       run: |
+        echo DOING STUFF
         echo ${{inputs.repo}}
         echo ${{inputs.ref}}
         echo ${{inputs.json-inputs}}
