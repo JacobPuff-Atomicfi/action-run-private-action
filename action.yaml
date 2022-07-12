@@ -47,7 +47,6 @@ runs:
       run: |
         cd ${{ steps.echo-stuff.outputs.action-path}}
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
-      needs:
       id: private-action
       uses: ./
       env: ${{ fromJSON(inputs.json-env) }}
