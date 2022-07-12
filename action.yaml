@@ -36,18 +36,21 @@ runs:
         repository: ${{ inputs.repo }}
         ref: ${{ inputs.ref }}
         path: ${{ inputs.path }}
-    - name: echo stuff
-      id: echo-stuff
+    - name: Get paths
+      id: get-paths
       shell: bash
       run: |
-        echo DOING STUFF
-        echo ${{inputs.repo}}
-        echo ${{inputs.ref}}
-        echo ${{toJSON(inputs.json-inputs)}}
-        echo ./${{inputs.path}}${{inputs.repo}}
+        echo "::workflow-command starting-path=::$(pwd)"
         echo "::workflow-command action-path=::./${{inputs.path}}/${{inputs.repo}}"
+    - name: CD to action
+      run: |
+        cd ${{ steps.echo-stuff.outputs.action-path}}
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
+      needs:
       id: private-action
-      uses: ./${{steps.echo-stuff.outputs.action-path}}
+      uses: ./
       env: ${{ fromJSON(inputs.json-env) }}
       with: ${{ fromJSON(inputs.json-inputs) }}
+    - name: CD to starting point
+      run: |
+        cd ${{ steps.echo-stuff.outputs.starting-path}}
