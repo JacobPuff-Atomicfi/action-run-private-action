@@ -37,7 +37,7 @@ runs:
         ref: ${{ inputs.ref }}
         path: ${{ inputs.path }}
     - name: echo stuff
-      runs: |
+      run: |
         echo ${{inputs.repo}}
         echo ${{inputs.ref}}
         echo ${{inputs.json-inputs}}
