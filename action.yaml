@@ -48,6 +48,7 @@ runs:
         ls ./
         ls ./.github
         ls ./.github/actions
+        ls ./.github/actions/action-run-private-action
         echo "::workflow-command starting-path=::$(pwd)"
         echo "::workflow-command action-path=::./${{ inputs.path }}/${{ inputs.repo }}"
     - name: Move private action to dummy action
@@ -57,6 +58,6 @@ runs:
         mv ${{ steps.echo-stuff.outputs.action-path }}/* ./.github/actions/action-run-private-action/dummy-action/
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
       id: private-action
-      uses: ./.github/actions/dummy-action
+      uses: ./.github/actions/action-run-private-action/dummy-action
       env: ${{ fromJSON(inputs.json-env) }}
       with: ${{ fromJSON(inputs.json-inputs) }}
