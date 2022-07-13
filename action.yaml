@@ -53,10 +53,12 @@ runs:
         echo "::workflow-command name=action-path::${{ inputs.path }}/${{ inputs.repo }}"
     - name: Move private action to dummy action
       shell: bash
+      env:
+        - ACTION_PATH: ${{ steps.get-paths.outputs.action-path }}
       run: |
-        echo ${{ steps.get-paths.outputs.action-path }}
+        echo $ACTION_PATH
         rm ./.github/actions/action-run-private-action/dummy-action/action.yaml
-        mv ${{ steps.get-paths.outputs.action-path }}/* ./.github/actions/action-run-private-action/dummy-action/
+        mv $ACTION_PATH/* ./.github/actions/action-run-private-action/dummy-action/
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
       id: private-action
       uses: ./.github/actions/action-run-private-action/dummy-action
