@@ -49,8 +49,9 @@ runs:
         ls ./.github
         ls ./.github/actions
         ls ./.github/actions/action-run-private-action
+        ls ./.github/actions/private-actions
         echo "::set-output name=starting-path::$(pwd)"
-        echo "::set-output name=action-path::${{ inputs.path }}/${{ inputs.repo }}"
+        echo "::set-output name=action-path::${{ inputs.path }}/$(echo ${{ inputs.repo }} | sed 's/.*\///')"
     - name: Move private action to dummy action
       shell: bash
       env:
