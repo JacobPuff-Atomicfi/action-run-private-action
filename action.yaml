@@ -40,7 +40,7 @@ runs:
         token: ${{ inputs.token }}
         repository: ${{ inputs.repo }}
         ref: ${{ inputs.ref }}
-        path: ${{ inputs.path }}
+        path: ${{ inputs.path }}/${{ inputs.repo }}
     - name: Get paths
       id: get-paths
       shell: bash
@@ -51,7 +51,7 @@ runs:
         ls ./.github/actions/action-run-private-action
         ls ./.github/actions/private-actions
         echo "::set-output name=starting-path::$(pwd)"
-        echo "::set-output name=action-path::${{ inputs.path }}/$(echo ${{ inputs.repo }} | sed 's/.*\///')"
+        echo "::set-output name=action-path::${{ inputs.path }}/${{ inputs.repo }}"
     - name: Move private action to dummy action
       shell: bash
       env:
