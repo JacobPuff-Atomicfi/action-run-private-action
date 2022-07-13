@@ -50,7 +50,7 @@ runs:
         ls ./.github/actions
         ls ./.github/actions/action-run-private-action
         echo "::workflow-command starting-path=::$(pwd)"
-        echo "::workflow-command action-path=::./${{ inputs.path }}/${{ inputs.repo }}"
+        echo "::workflow-command action-path=::${{ inputs.path }}/${{ inputs.repo }}"
     - name: Move private action to dummy action
       shell: bash
       run: |
