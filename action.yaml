@@ -54,6 +54,7 @@ runs:
     - name: Move private action to dummy action
       shell: bash
       run: |
+        echo ${{ steps.get-paths.outputs.action-path }}
         rm ./.github/actions/action-run-private-action/dummy-action/action.yaml
         mv ${{ steps.get-paths.outputs.action-path }}/* ./.github/actions/action-run-private-action/dummy-action/
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
