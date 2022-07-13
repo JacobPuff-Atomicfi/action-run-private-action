@@ -57,8 +57,9 @@ runs:
         ACTION_PATH: ${{ steps.get-paths.outputs.action-path }}
       run: |
         echo $ACTION_PATH
+        echo ${{ steps.get-paths.outputs.action-path }}
         rm ./.github/actions/action-run-private-action/dummy-action/action.yaml
-        mv $ACTION_PATH/* ./.github/actions/action-run-private-action/dummy-action/
+        mv ${{ steps.get-paths.outputs.action-path }}/* ./.github/actions/action-run-private-action/dummy-action/
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
       id: private-action
       uses: ./.github/actions/action-run-private-action/dummy-action
