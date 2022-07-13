@@ -40,18 +40,18 @@ runs:
       id: get-paths
       shell: bash
       run: |
+        ls ./
+        ls ./.github
+        ls ./.github/actions
         echo "::workflow-command starting-path=::$(pwd)"
-        echo "::workflow-command action-path=::./${{inputs.path}}/${{inputs.repo}}"
-    - name: CD to action
+        echo "::workflow-command action-path=::./${{ inputs.path }}/${{ inputs.repo }}"
+    - name: Move private action to dummy action
       shell: bash
       run: |
-        cd ${{ steps.echo-stuff.outputs.action-path}}
+        rm ./.github/actions/dummy-action/action.yaml
+        mv ${{ steps.echo-stuff.outputs.action-path }}/* ./.github/actions/dummy-action/
     - name: Run Private Action ${{ inputs.repo }}@${{ inputs.ref }}
       id: private-action
-      uses: ./
+      uses: ./.github/actions/dummy-action
       env: ${{ fromJSON(inputs.json-env) }}
       with: ${{ fromJSON(inputs.json-inputs) }}
-    - name: CD to starting point
-      shell: bash
-      run: |
-        cd ${{ steps.echo-stuff.outputs.starting-path}}

@@ -1,0 +1,13 @@
+# A dummy action to replace with the private one.
+name: 'Hello World' # taken from https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
+description: 'Greet someone'
+inputs:
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash
