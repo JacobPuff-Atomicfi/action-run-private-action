@@ -44,7 +44,9 @@ runs:
     - name: echo stuff
       shell: bash
       run: |
-        echo ${{ inputs.json-inputs }}
+        echo << EOF
+          ${{ inputs.json-inputs }}
+        EOF
     - name: Move private action to dummy action
       shell: bash
       run: |
